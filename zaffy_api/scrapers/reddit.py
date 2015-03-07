@@ -6,7 +6,7 @@ def pull_reddit_listing(listing='popular'):
     """
     pull a listing of reddit
     """
-    endpoint = "https://api.reddit.com/" + listing
+    endpoint = "https://api.reddit.com/subreddits/" + listing
     try:
         response = urllib2.urlopen(endpoint)
         data = json.load(response)
