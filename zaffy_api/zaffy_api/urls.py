@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     url(r'^api/v1/$', views.api_root),
 
     url(r'^', include('zaffy.urls')),
+    url(r'^', include('gen.urls')),
 )
 
 urlpatterns += [
