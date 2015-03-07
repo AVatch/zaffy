@@ -1,0 +1,7 @@
+scipy
+numpy
+pil
+scikit-learn
+scikit-image
+django
+djangorestframework
