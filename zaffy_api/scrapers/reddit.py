@@ -2,19 +2,6 @@ import urllib2
 import json
 
 
-def pull_reddit_listing(listing='popular'):
-    """
-    pull a listing of reddit
-    """
-    endpoint = "https://api.reddit.com/subreddits/" + listing
-    try:
-        response = urllib2.urlopen(endpoint)
-        data = json.load(response)
-        print data
-    except Exception as e:
-        print e
-
-
 def isimg(link):
     ex = ['.png', '.jpg']
     for e in ex:
@@ -27,11 +14,7 @@ def isimg(link):
     return False
 
 
-def twitter():
-    pass
-
-
-def reddit():
+def get_data():
     pairs = []
 
     try:
@@ -50,4 +33,4 @@ def reddit():
         return None
 
 if __name__ == '__main__':
-    reddit_data = reddit()
+    reddit_data = get_data()
