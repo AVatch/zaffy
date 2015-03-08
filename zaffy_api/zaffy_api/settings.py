@@ -96,7 +96,7 @@ MEDIA_URL = 'media/'
 MEDIA_ROOT = 'media/'
 
 REST_FRAMEWORK = {
-    'PAGINATE_BY': 10,
+    'PAGINATE_BY': 48,
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
