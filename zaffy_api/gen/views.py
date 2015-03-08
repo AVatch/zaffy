@@ -19,9 +19,11 @@ from zaffy.models import Zaffy
 @authentication_classes((SessionAuthentication, TokenAuthentication))
 @permission_classes((IsAuthenticated,))
 def gen_zaffy(request, format=None):
-    viral = get_data()
-    nouns = []
+    viral = None
+    while not viral:
+        viral = get_data()
 
+    nouns = []
     for topic in viral:
         text = nltk.tokenize.word_tokenize(topic[0])
         tokenized = nltk.pos_tag(text)
