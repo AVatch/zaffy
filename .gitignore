@@ -1,5 +1,5 @@
 *.pyc
 .DS_Store
 migrations/
-*.sq_lite3
+*.sqlite3
 pics/
