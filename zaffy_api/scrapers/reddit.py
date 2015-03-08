@@ -21,7 +21,7 @@ def get_data():
     try:
         for s in ['all', 'news']:
             page = urllib2.urlopen(
-                'http://www.reddit.com/r/{}/top.json?limit=10'.format(s))
+                'http://www.reddit.com/r/{}/top.json?limit=20'.format(s))
             data = json.load(page)
 
             for d in data['data']['children']:
