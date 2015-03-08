@@ -1,5 +1,6 @@
 import urllib2
 import json
+import unicodedata
 
 
 def isimg(link):
@@ -18,15 +19,19 @@ def get_data():
     pairs = []
 
     try:
-        page = urllib2.urlopen('http://www.reddit.com/r/all/top.json?limit=10')
-        data = json.load(page)
+        for s in ['all', 'news']:
+            page = urllib2.urlopen(
+                'http://www.reddit.com/r/{}/top.json?limit=10'.format(s))
+            data = json.load(page)
 
-        for d in data['data']['children']:
-            title = d['data']['title']
-            link = d['data']['url']
-            img = link if isimg(link) else None
-            pairs.append((title, img))
+            for d in data['data']['children']:
+                title = d['data']['title']
+                link = d['data']['url']
+                img = link if isimg(link) else None
+                pairs.append((title, img))
 
+        pairs = [map(lambda x: x.encode('ascii', 'ignore') if x else None, p)
+                 for p in pairs]
         return pairs
 
     except:
