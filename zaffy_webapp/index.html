@@ -84,8 +84,8 @@
 
     </div>
     
-    <div class="text-center">
-        <a href="#" class="btn btn-motive ct-u-marginBoth70">View More</a>
+    <div class="text-center" ng-if="nextPage">
+        <button ng-click="pullMore()" class="btn btn-motive ct-u-marginBoth70">View More</button>
     </div>
 </div>
 
@@ -205,6 +205,7 @@ angular.module("myapp", [])
         console.log("Pulling this shit");
 
         $scope.zaffys = [];
+        $scope.nextPage;
 
         var DOMAIN = "http://52.0.238.94/";
 
@@ -220,6 +221,7 @@ angular.module("myapp", [])
                         });
         response.then(function(s){
             if(s.status==200){
+                $scope.nextPage = s.data.next;
                 $scope.zaffys = s.data.results;
                 for(var i=0; i<$scope.zaffys.length; i++){
                     $scope.zaffys[i].media = DOMAIN + 'media/' + $scope.zaffys[i].media;
@@ -227,6 +229,37 @@ angular.module("myapp", [])
                 console.log($scope.zaffys);
             }
         }, function(e){console.log(e);});
+
+
+        $scope.pullMore = function(){
+
+
+            console.log("YO !!!!");
+
+            if($scope.nextPage){
+                var response =  $http({
+                            url: $scope.nextPage,
+                            method: 'GET',
+                            headers: { 
+                              'Content-Type': 'application/json',
+                              'Authorization': 'Token ' + token },
+                        });
+                response.then(function(s){
+                    if(s.status==200){
+                        var buffer = s.data.results;
+                        for(var i=0; i<buffer.length; i++){
+                            buffer[i].media = DOMAIN + 'media/' + buffer[i].media;
+                        }
+
+                        $scope.nextPage = s.data.next;
+                        $scope.zaffys = $scope.zaffys.concat(buffer);
+
+                    }
+                }, function(e){console.log(e);});
+            }
+
+        };
+
     } )
 
     .directive('masonry', function ($parse) {
