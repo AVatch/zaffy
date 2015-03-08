@@ -33,7 +33,8 @@ def get_data():
                  for p in pairs]
         return pairs
 
-    except:
+    except Exception as e:
+        print e
         return None
 
 if __name__ == '__main__':

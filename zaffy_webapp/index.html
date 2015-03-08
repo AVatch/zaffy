@@ -67,7 +67,7 @@
                         <figcaption>
                             <div class="ct-hover-inner">
                                 <div class="ct-hover-text">
-                                    <h4 class="ct-hover-header">{{zaffy.title}}</h4>
+                                    <h4 class="ct-hover-header">{{zaffy.description}}</h4>
                                     <div class="ct-u-hr ct-u-hr--mid"></div>
                                     <p>{{zaffy.created_at}}</p>
                                 </div>
@@ -207,6 +207,8 @@ angular.module("myapp", [])
         $scope.zaffys = [];
 
         var DOMAIN = "http://127.0.0.1:8000/";
+
+        $scope.domain = DOMAIN;
         var token = "4edf24ddd6df08337afe707d2218ba103068744f";
 
         var response =  $http({
@@ -219,6 +221,9 @@ angular.module("myapp", [])
         response.then(function(s){
             if(s.status==200){
                 $scope.zaffys = s.data.results;
+                for(var i=0; i<$scope.zaffys.length; i++){
+                    $scope.zaffys[i].media = DOMAIN + 'media/' + $scope.zaffys[i].media;
+                }
                 console.log($scope.zaffys);
             }
         }, function(e){console.log(e);});

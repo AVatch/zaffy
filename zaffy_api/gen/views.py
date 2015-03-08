@@ -38,11 +38,11 @@ def gen_zaffy(request, format=None):
             for _ in range(2):
                 name += random.choice(nouns) + ' '
             name = name[:-1]
-
             img = pick_img(noun)
             fname = filt(img)
             failed = False
-        except:
+        except Exception as e:
+            print e
             failed = True
 
     Zaffy.objects.create(title=noun, media=fname, description=name)
