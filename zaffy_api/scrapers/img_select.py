@@ -11,8 +11,11 @@ def pick_img(word):
     urlpattern = r'\/\/i\.imgur\.com\/([a-zA-Z0-9]*)\.jpg'
     sublinks = re.findall(urlpattern, rawdata)
     links = ['http://i.imgur.com/{}.jpg'.format(s[:-1]) for s in sublinks]
-    return random.choice(links)
 
+    if links:
+        return random.choice(links)
+    else:
+        return None
 
 if __name__ == '__main__':
     print pick_img(sys.argv[1])
