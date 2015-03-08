@@ -26,7 +26,10 @@
     <script src="./assets/modernizr.custom.js"></script><style type="text/css"></style>
 <link rel="stylesheet" type="text/css" href="./assets/demo.css"><link rel="stylesheet" type="text/css" href="./assets/generator.php"></head>
 
-<body class="cssAnimate">
+<body class="cssAnimate" ng-app="myapp">
+
+<div>
+<div ng-controller="zaffyCrl">
 
 <div class="ct-preloader animated fadeOut" style="display: none; z-index: -9999;"><div class="ct-preloader-content animated fadeOut"></div></div>
 
@@ -51,17 +54,22 @@
 <div class="container-fluid">
     <div id="ct-gallery" class="ct-gallery ct-gallery--col4 ct-js-magnificPortfolioPopupGroup is-loaded" style="position: relative; height: 2154px;">
 
-        <div class="ct-gallery-item ct-gallery-item--masonry ct-gallery-item--default ct-gallery-item--normal webdesign" style="position: absolute; left: 0px; top: 0px;">
+        
+
+
+        <div
+            ng-repeat="zaffy in zaffys" 
+            class="ct-gallery-item ct-gallery-item--masonry ct-gallery-item--default ct-gallery-item--normal webdesign">
             <div class="ct-gallery-itemInner">
-                <a class="ct-js-magnificPopupImage" href="./assets/portfolio-03.jpg">
+                <a class="ct-js-magnificPopupImage" href="{{zaffy.media}}">
                     <figure class="ct-hover ct-js-hover ct-hover--type6">
-                        <img src="./assets/portfolio-03.jpg" alt="">
+                        <img ng-src="{{zaffy.media}}" alt="" style="width:100%; height:250px;">
                         <figcaption>
                             <div class="ct-hover-inner">
                                 <div class="ct-hover-text">
-                                    <h4 class="ct-hover-header">Atlanta Area Pascode Lion</h4>
+                                    <h4 class="ct-hover-header">{{zaffy.title}}</h4>
                                     <div class="ct-u-hr ct-u-hr--mid"></div>
-                                    <p>03/07/2015</p>
+                                    <p>{{zaffy.created_at}}</p>
                                 </div>
                             </div>
                         </figcaption>
@@ -180,6 +188,7 @@
 <script src="./assets/init(2).js"></script>
 
 <script src="./assets/less.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.12/angular.min.js"></script>
 
 
 <!-- Datetime Picker -->
@@ -188,6 +197,58 @@
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
 
+
+<script type="text/javascript">
+
+angular.module("myapp", [])
+    .controller("zaffyCrl", function($scope, $http) {
+        console.log("Pulling this shit");
+
+        $scope.zaffys = [];
+
+        var DOMAIN = "http://127.0.0.1:8000/";
+        var token = "8883ea69962cbdf81c5fc9c3b96e6bc38e971bd2";
+
+        var response =  $http({
+                            url: DOMAIN + 'api/v1/zaffy/',
+                            method: 'GET',
+                            headers: { 
+                              'Content-Type': 'application/json',
+                              'Authorization': 'Token ' + token },
+                        });
+        response.then(function(s){
+            if(s.status==200){
+                $scope.zaffys = s.data.results;
+                console.log($scope.zaffys);
+            }
+        }, function(e){console.log(e);});
+    } )
+
+    .directive('masonry', function ($parse) {
+        return {
+            restrict: 'AC',
+            link: function (scope, elem, attrs) {
+                elem.masonry({ itemSelector: '.masonry-item', columnWidth: $parse(attrs.masonry)(scope) });
+            }
+        };        
+    })
+
+    .directive('masonryItem', function ($compile) {
+        return {
+            restrict: 'AC',
+            link: function (scope, elem, attrs) {
+               elem.html($compile(elem.html())(scope));
+               elem.imagesLoaded(function () {      
+                   console.log(elem.html());
+                   elem.parents('.masonry').masonry('reload');
+               });
+            }
+        };        
+    });
+
+
+
+</script>
 
 <script>
     $(document).ready(function(){
@@ -201,30 +262,9 @@
                 startDate: d,
                 endDate: '12/30/2020'
             });
-        
-
-
-        // Pull the Zaffys
-        var token = "8883ea69962cbdf81c5fc9c3b96e6bc38e971bd2";
-        var domain = "http://127.0.0.1:8000/";
-        $.ajax({
-              url: domain + "api/v1/zaffy/",
-              type: 'GET',
-              success: function(d){
-                console.log("MADE IT");
-                console.log(d);
-
-              },
-              error: function(d){
-                console.log("ERROR");
-              },
-              headers: {    
-                            "content-type": "application/json",
-                            "Authorization":"Token 8883ea69962cbdf81c5fc9c3b96e6bc38e971bd2",
-                        }
-            });
-
     });
 </script>
-
-</body></html>
+</div>
+</div>
+    </body>
+</html>
