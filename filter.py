@@ -1,5 +1,4 @@
 import sys
-
 import numpy as np
 from skimage.future import graph
 from skimage import io, segmentation, color
@@ -25,7 +24,7 @@ if len(sys.argv) > 1:
 img = misc.imread('pics/' + fname)
 scale = int(img.size)**0.5 / 150
 
-labels = segmentation.slic(img, compactness=30, n_segments=400)
+labels = segmentation.slic(img, compactness=100, n_segments=400)
 g = graph.rag_mean_color(img, labels)
 labels2 = graph.merge_hierarchical(labels, g, thresh=40, rag_copy=False,
                                    in_place_merge=True,
