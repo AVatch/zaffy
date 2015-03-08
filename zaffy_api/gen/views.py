@@ -11,6 +11,7 @@ import nltk
 
 from scrapers.reddit import get_data
 from scrapers.img_select import pick_img
+from scrapers.color_stain_filter import filt
 from zaffy.models import Zaffy
 
 
@@ -21,13 +22,20 @@ def gen_zaffy(request, format=None):
     viral = get_data()
     nouns = []
 
-    while not nouns:
-        topic = random.choice(viral)
+    for topic in viral:
         text = nltk.tokenize.word_tokenize(topic[0])
         tokenized = nltk.pos_tag(text)
-        nouns = [s[0] for s in tokenized if s[1] == 'NN']
+        nouns = nouns + [s[0] for s in tokenized if s[1] == 'NN']
 
     noun = random.choice(nouns)
+
+    name = noun + ' '
+    for _ in range(2):
+        name += random.choice(nouns) + ' '
+    name = name[:-1]
+
     img = pick_img(noun)
+    fname = filt(img)
+
     Zaffy.objects.create(title=noun, media=img)
-    return Response({"topic": noun, "image": img})
+    return Response({"topic": noun, "image": fname, "description": name})
