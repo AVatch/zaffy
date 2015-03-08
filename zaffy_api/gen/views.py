@@ -27,15 +27,21 @@ def gen_zaffy(request, format=None):
         tokenized = nltk.pos_tag(text)
         nouns = nouns + [s[0] for s in tokenized if s[1] == 'NN']
 
-    noun = random.choice(nouns)
+    failed = True
+    while failed:
+        try:
+            noun = random.choice(nouns)
 
-    name = noun + ' '
-    for _ in range(2):
-        name += random.choice(nouns) + ' '
-    name = name[:-1]
+            name = noun + ' '
+            for _ in range(2):
+                name += random.choice(nouns) + ' '
+            name = name[:-1]
 
-    img = pick_img(noun)
-    fname = filt(img)
+            img = pick_img(noun)
+            fname = filt(img)
+            failed = False
+        except:
+            failed = True
 
-    Zaffy.objects.create(title=noun, media=img)
+    Zaffy.objects.create(title=noun, media=fname, description=name)
     return Response({"topic": noun, "image": fname, "description": name})
