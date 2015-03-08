@@ -10,6 +10,10 @@ from scipy import misc
 def filt(url):
     urllib.urlretrieve(url, os.path.join(os.getcwd(), 'tmp.png'))
     img = misc.imread('tmp.png')
+    w, h = len(img), len(img[0])
+    if w < 500 or h < 500 or w > 1500 or h > 1500:
+        os.remove('tmp.png')
+        raise Exception
     os.remove('tmp.png')
 
     labels1 = segmentation.slic(img, compactness=10, n_segments=400)
