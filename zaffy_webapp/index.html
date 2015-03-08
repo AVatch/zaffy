@@ -53,15 +53,15 @@
 
         <div class="ct-gallery-item ct-gallery-item--masonry ct-gallery-item--default ct-gallery-item--normal webdesign" style="position: absolute; left: 0px; top: 0px;">
             <div class="ct-gallery-itemInner">
-                <a class="ct-js-magnificPopupImage" href="./assets/portfolio-03.jpg" title="Berlin Songs Festival">
+                <a class="ct-js-magnificPopupImage" href="./assets/portfolio-03.jpg">
                     <figure class="ct-hover ct-js-hover ct-hover--type6">
                         <img src="./assets/portfolio-03.jpg" alt="">
                         <figcaption>
                             <div class="ct-hover-inner">
                                 <div class="ct-hover-text">
-                                    <h4 class="ct-hover-header">Berlin Songs Festival</h4>
+                                    <h4 class="ct-hover-header">Atlanta Area Pascode Lion</h4>
                                     <div class="ct-u-hr ct-u-hr--mid"></div>
-                                    <p>Design / Photography</p>
+                                    <p>03/07/2015</p>
                                 </div>
                             </div>
                         </figcaption>
@@ -129,16 +129,10 @@
         <hr>
 
         <form id="eventForm" method="post" class="form-horizontal">
-            <div class="form-group">
-                <label class="col-xs-3 control-label">Event</label>
-                <div class="col-xs-5">
-                    <input type="text" class="form-control" name="name" />
-                </div>
-            </div>
 
             <div class="form-group">
-                <label class="col-xs-3 control-label">Date</label>
-                <div class="col-xs-5 date">
+                <label class="col-xs-5 control-label">Generate Your Zaffy On:</label>
+                <div class="col-xs-7 date">
                     <div class="input-group input-append date" id="datePicker">
                         <input type="text" class="form-control" name="date" />
                         <span class="input-group-addon add-on"><span class="fa fa-calendar-o"></span></span>
@@ -199,15 +193,37 @@
     $(document).ready(function(){
         console.log("YoloSwag!");
 
-        
-
+        // Setup datetime picker
+        var d = new Date();
         $('#datePicker')
             .datepicker({
                 format: 'mm/dd/yyyy',
-                startDate: '03/07/2015',
+                startDate: d,
                 endDate: '12/30/2020'
             });
         
+
+
+        // Pull the Zaffys
+        var token = "8883ea69962cbdf81c5fc9c3b96e6bc38e971bd2";
+        var domain = "http://127.0.0.1:8000/";
+        $.ajax({
+              url: domain + "api/v1/zaffy/",
+              type: 'GET',
+              success: function(d){
+                console.log("MADE IT");
+                console.log(d);
+
+              },
+              error: function(d){
+                console.log("ERROR");
+              },
+              headers: {    
+                            "content-type": "application/json",
+                            "Authorization":"Token 8883ea69962cbdf81c5fc9c3b96e6bc38e971bd2",
+                        }
+            });
+
     });
 </script>
 

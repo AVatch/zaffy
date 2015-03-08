@@ -39,6 +39,7 @@ INSTALLED_APPS = (
 
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
 
     'zaffy',
     'gen',
@@ -54,6 +55,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
 )
 
 ROOT_URLCONF = 'zaffy_api.urls'
@@ -99,3 +102,5 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     )
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
