@@ -1,6 +1,5 @@
 import urllib2
 import json
-import unicodedata
 
 
 def isimg(link):
